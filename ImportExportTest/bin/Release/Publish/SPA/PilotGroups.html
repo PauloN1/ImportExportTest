@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../Content/Site.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="../Content/loader.css" rel="stylesheet">
+    <link href="../Content/tree-control.css" rel="stylesheet">
+    <link href="../Content/tablescrollbar.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/angular.min.js"></script>
+    <script src="../Scripts/angular-tree-control.js"></script>
+    <!--<script src="../Scripts/bp/Common/LoadConfigScreen.js"></script>-->
+    <script src="../Scripts/pilotgroups.js"></script>
+    <title>Pilot Groups</title>
+</head>
+<body class="container">
+    <div ng-app="app" ng-controller="Controller" data-ng-init="loaddata()" class="body-content">
+        <h3>Banking Platform Disablement Configuration</h3>
+
+        <!--<form>
+            <fieldset id="configset" class="scheduler-border">
+                <legend>Configuration</legend>
+                <select name="selConfig" id="selConfig" ng-change="loadConfig()" ng-model="selectedConfig" class="form-control" ng-options="obj.Id as obj.name for obj in configList">
+                    <option value="">Juristic Disablement Pilot Groups</option>
+                </select>
+                <br />
+            </fieldset>
+        </form>-->
+        <br />
+        <!--<form>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <input ng-model="searchString" id="searchstr" class="form-control" placeholder="Ex. Name/Description or Audit User" />
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <button class="form-control btn-primary" ng-click="search(searchString) ">{{btnsearch}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <a ng-if="fullAccess" href="../SPA/CreatePilotGroup.html">
+            Create New
+        </a>-->
+        <div class="row">
+            <div class="tableFixHead">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Name or Description
+                            </th>
+                            <th scope="col">
+                                Start Date
+                            </th>
+                            <th scope="col">
+                                End Date
+                            </th>
+                            <th scope="col">
+                                Audit Date
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pilotgroup in pilotgroups">
+                            <td>
+                                {{ pilotgroup.NameOrDesc }}
+                            </td>
+                            <td>
+                                {{ pilotgroup.StartDate }}
+                            </td>
+                            <td>
+                                {{ pilotgroup.EndDate  }}
+                            </td>
+                            <td>
+                                {{ pilotgroup.AuditDate  }}
+                            </td>
+                            <!--<td>
+                                <a ng-if="fullAccess" href="../SPA/EditPilotGroup.html?id={{pilotgroup.Id}}">Edit</a> |
+                                <a href="../SPA/PilotGroupDetails.html?id={{pilotgroup.Id}}">Details</a> |
+                                <a ng-if="fullAccess" href="../SPA/DeletePilotGroup.html?id={{pilotgroup.Id}}">Delete</a>
+                            </td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+
+            <p>
+                <a data-toggle="modal" data-target="#upload" class="btn btn-secondary">Bulk Import</a>
+                <a ng-click="export()" class="btn btn-secondary">Export As .xlsx</a>
+                <!--<a ng-click="refresh()" class="btn btn-secondary">Refresh</a>-->
+            </p>
+            <hr />
+            <div align="left" style="bottom:5px; position:fixed;  background-color:white;">
+                40.02.04
+            </div>
+            <!--Message PopUp Modal-->
+            <div id="showMessage" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{message.title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <dl>
+                                <dt>{{message.description}}</dt>
+                                <dd>{{message.detail}}</dd>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="showBusy" class="modal" role="dialog">
+                <div class="modal-dialog">
+                    <div id="divLoader" class="cssload-loader">
+                        <div class="cssload-inner cssload-one"></div>
+                        <div class="cssload-inner cssload-two"></div>
+                        <div class="cssload-inner cssload-three"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--Upload PopUp Modal-->
+        <div id="upload" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Pilot Groups Imports</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Please choose your .xlsx file to upload from. Alternatively drag and drop file here.</h4>
+                        <input type="file" file-model="myFile" accept=".xlsx" />
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" ng-click="import()" class="btn btn-primary">Upload <i class="fa fa-upload"></i></button>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
